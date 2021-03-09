@@ -52,7 +52,7 @@ class TypechoLaTeX_Plugin implements Typecho_Plugin_Interface {
             'KaTeX' => 'KaTeX',
             'MathJax' => 'MathJax',
         );
-        $name = new Typecho_Widget_Helper_Form_Element_Select('rendering', $renderingList, 'MathJax', _t('选择 LaTeX 渲染方式'));
+        $name = new Typecho_Widget_Helper_Form_Element_Select('rendering', $renderingList, 'KaTeX', _t('选择 LaTeX 渲染方式'));
         $form->addInput($name->addRule('enum', _t('请选择 LaTeX 渲染方式'), $renderingList));
     }
 
