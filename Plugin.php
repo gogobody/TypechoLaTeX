@@ -54,6 +54,12 @@ class TypechoLaTeX_Plugin implements Typecho_Plugin_Interface {
         );
         $name = new Typecho_Widget_Helper_Form_Element_Select('rendering', $renderingList, 'KaTeX', _t('选择 LaTeX 渲染方式'));
         $form->addInput($name->addRule('enum', _t('请选择 LaTeX 渲染方式'), $renderingList));
+
+        $render_container = new Typecho_Widget_Helper_Form_Element_Text('render_container',null,'document.body','渲染的节点','
+        默认的渲染节点为 document.body，为整个网页，因为插件可能对其他网页节点产生影响，因此建议将节点精确到文章节点。没有影响的就无所谓。<br>
+        比如spimes主题可以填:document.getElementsByClassName("entry-content clearfix")[0]
+        ');
+        $form->addInput($render_container);
     }
 
     /**
@@ -103,12 +109,14 @@ HTML;
     public static function footer() {
 
         $rendering = Helper::options()->plugin('TypechoLaTeX')->rendering;
+        $r_container = Helper::options()->plugin('TypechoLaTeX')->render_container;
+        var_dump($r_container);
         switch($rendering) {
             case 'MathJax':
                 echo <<<HTML
 <script>
 MathJax={tex:{inlineMath:[["$","$"],["\\(","\\)"]]},svg:{fontCache:"global"}};
-function triggerRenderingLaTeX(element){MathJax.typeset()};
+function triggerRenderingLaTeX(element){MathJax.typeset({$r_container})};
 </script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
 </script>
@@ -118,7 +126,7 @@ HTML;
                 echo <<<HTML
 <script>
 function triggerRenderingLaTeX(element) {renderMathInElement(element,{delimiters:[{left:"$$",right:"$$",display:true},{left:"$",right:"$",display:false},{left:"\\(",right:"\\)",display:false},{left:"\\begin{equation}",right:"\\end{equation}",display:true},{left:"\\begin{align}",right:"\\end{align}",display:true},{left:"\\begin{alignat}",right:"\\end{alignat}",display:true},{left:"\\begin{gather}",right:"\\end{gather}",display:true},{left:"\\begin{CD}",right:"\\end{CD}",display:true},{left:"\\[",right:"\\]",display:true}],macros:{"\\ge":"\\geqslant","\\le":"\\leqslant","\\geq":"\\geqslant","\\leq":"\\leqslant"}})}
-document.addEventListener("DOMContentLoaded",function(){triggerRenderingLaTeX(document.body)});
+document.addEventListener("DOMContentLoaded",function(){triggerRenderingLaTeX({$r_container})});
 </script>
 HTML;
                 break;
