@@ -110,7 +110,6 @@ HTML;
 
         $rendering = Helper::options()->plugin('TypechoLaTeX')->rendering;
         $r_container = Helper::options()->plugin('TypechoLaTeX')->render_container;
-        var_dump($r_container);
         switch($rendering) {
             case 'MathJax':
                 echo <<<HTML
