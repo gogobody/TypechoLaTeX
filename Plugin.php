@@ -115,7 +115,7 @@ HTML;
                 echo <<<HTML
 <script>
 MathJax={tex:{inlineMath:[["$","$"],["\\(","\\)"]]},svg:{fontCache:"global"}};
-function triggerRenderingLaTeX(element){MathJax.typeset({$r_container})};
+function triggerRenderingLaTeX(element){if ({$r_container}){MathJax.typeset({$r_container})}};
 </script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
 </script>
@@ -125,7 +125,7 @@ HTML;
                 echo <<<HTML
 <script>
 function triggerRenderingLaTeX(element) {renderMathInElement(element,{delimiters:[{left:"$$",right:"$$",display:true},{left:"$",right:"$",display:false},{left:"\\(",right:"\\)",display:false},{left:"\\begin{equation}",right:"\\end{equation}",display:true},{left:"\\begin{align}",right:"\\end{align}",display:true},{left:"\\begin{alignat}",right:"\\end{alignat}",display:true},{left:"\\begin{gather}",right:"\\end{gather}",display:true},{left:"\\begin{CD}",right:"\\end{CD}",display:true},{left:"\\[",right:"\\]",display:true}],macros:{"\\ge":"\\geqslant","\\le":"\\leqslant","\\geq":"\\geqslant","\\leq":"\\leqslant"}})}
-document.addEventListener("DOMContentLoaded",function(){triggerRenderingLaTeX({$r_container})});
+document.addEventListener("DOMContentLoaded",function(){if ({$r_container}){triggerRenderingLaTeX({$r_container})}});
 </script>
 HTML;
                 break;
